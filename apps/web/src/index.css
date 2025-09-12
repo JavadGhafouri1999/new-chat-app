@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap");
+
+@import "tailwindcss";
+@plugin "daisyui";
+
+:root {
+	direction: rtl;
+	font-family: "Ubuntu Sans", "Vazirmatn", sans-serif;
+	line-height: 1.5;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+*,
+html,
+body {
+	font-family: "Ubuntu Sans", "Vazirmatn", sans-serif;
+	font-optical-sizing: auto;
+	font-variation-settings: "wdth" 100;
+}
+
+.ltr {
+	direction: ltr;
+}

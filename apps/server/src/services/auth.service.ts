@@ -104,5 +104,5 @@ export const updateUser = async (data: UpdateUser, userId: string) => {
 
 	const user = await UserModel.findByIdAndUpdate(userId, updateData, { new: true });
 
-	return { user };
+	return { user: user?.omitPassword() };
 };

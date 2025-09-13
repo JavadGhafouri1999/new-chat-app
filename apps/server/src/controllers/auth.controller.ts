@@ -1,6 +1,6 @@
 import AppErrorCode from "../constants/errorCode";
 import { CREATED, OK, UNAUTHORIZED } from "../constants/httpStatusCode";
-import { createAccount, login, refreshAccessToken } from "../services/auth.service";
+import { createAccount, login, refreshAccessToken, updateUser } from "../services/auth.service";
 import appAssert from "../utils/appAssert";
 import catchErrors from "../utils/catchErrors";
 import {
@@ -9,7 +9,7 @@ import {
 	getRefreshTokenCookieOptions,
 	setAuthCookies,
 } from "../utils/cookie";
-import { loginSchema, registerSchema } from "./auth.schemas";
+import { loginSchema, registerSchema, updateSchema } from "./auth.schemas";
 
 export const registerHandler = catchErrors(async (req, res) => {
 	const request = registerSchema.parse({ ...req.body, userAgent: req.headers["user-agent"] });
@@ -49,4 +49,13 @@ export const refreshTokenHandler = catchErrors(async (req, res) => {
 		.status(OK)
 		.cookie("accessToken", accessToken, getAccessTokenCookieOptions())
 		.json({ message: "✅ Access Token refreshed" });
+});
+
+export const updateUserProfile = catchErrors(async (req, res) => {
+	const userId = req.userId.toString();
+	const request = updateSchema.parse(req.body);
+
+	await updateUser(request, userId);
+
+	res.status(OK).json({ message: "✅ User updated!" });
 });

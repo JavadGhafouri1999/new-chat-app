@@ -7,6 +7,12 @@ export type CreateUser = {
 	userAgent?: string | undefined;
 };
 
+export type UpdateUser = {
+	username?: string | undefined;
+	password?: string | undefined;
+	profileImage?: string | undefined;
+};
+
 export type LoginParams = {
 	email: string;
 	password: string;

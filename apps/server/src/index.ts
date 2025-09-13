@@ -6,7 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 // others
 import connectDB from "./config/db";
-import errorMiddleware from "./middleware/errorMiddleware";
+import errorMiddleware from "./middleware/error.middleware";
 import { APP_ORIGIN, PORT } from "./utils/env";
 // Routes
 import authRouter from "./routes/auth.route";

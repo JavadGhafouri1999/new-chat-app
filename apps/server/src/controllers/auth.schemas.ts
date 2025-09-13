@@ -20,6 +20,13 @@ export const loginSchema = z.object({
 	userAgent: z.string().optional(),
 });
 
+export const updateSchema = z.object({
+	username: usernameSchema.optional(),
+	password: passwordSchema.optional(),
+	profileImage: z.string().optional(),
+});
+export type UpdateUser = z.infer<typeof updateSchema>;
+
 export const registerSchema = loginSchema
 	.extend({
 		username: usernameSchema,

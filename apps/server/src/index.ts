@@ -11,13 +11,15 @@ import { APP_ORIGIN, PORT } from "./utils/env";
 // Routes
 import authRouter from "./routes/auth.route";
 import messageRouter from "./routes/message.route";
+import jsonValidator from "./middleware/jsonValidator.middleware";
 
 /* -------------------------------------------------------------------------- */
 /*                                   Configs                                  */
 /* -------------------------------------------------------------------------- */
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: "4mb" }));
+app.use(jsonValidator);
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: APP_ORIGIN, credentials: true }));
 app.use(cookieParser());

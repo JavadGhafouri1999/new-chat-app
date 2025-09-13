@@ -7,8 +7,11 @@ import {
 	updateUserProfile,
 } from "../controllers/auth.controller";
 import authProtect from "../middleware/auth.middleware";
+import arcjetProtection from "../models/arcjet.middleware";
 
 const authRouter: ExpresRouter = Router();
+
+authRouter.use(arcjetProtection);
 
 authRouter.post("/register", registerHandler);
 authRouter.post("/login", loginHandler);

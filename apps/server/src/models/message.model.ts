@@ -5,6 +5,7 @@ export interface MessageDocument extends mongoose.Document {
 	receiverId: mongoose.Types.ObjectId;
 	text: string;
 	image: string;
+	createdAt: Date;
 }
 
 const messageSchema = new mongoose.Schema<MessageDocument>(
@@ -28,6 +29,8 @@ const messageSchema = new mongoose.Schema<MessageDocument>(
 	},
 	{ timestamps: true }
 );
+
+messageSchema.index({ senderId: 1, receiverId: 1, createdAt: -1 });
 
 const MessageModel = mongoose.model("Message", messageSchema);
 

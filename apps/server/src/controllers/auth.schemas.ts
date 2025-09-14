@@ -31,7 +31,6 @@ export const registerSchema = loginSchema
 	.extend({
 		username: usernameSchema,
 		confirmPassword: passwordSchema,
-		gender: z.enum(["male", "female"]),
 	})
 	.refine((data) => data.password === data.confirmPassword, {
 		message: "Passwords do not match",

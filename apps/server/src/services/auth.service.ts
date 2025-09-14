@@ -20,7 +20,6 @@ export const createAccount = async (userData: CreateUser) => {
 		username: userData.username,
 		email: userData.email,
 		password: userData.password,
-		gender: userData.gender,
 	});
 	const userId = newUser._id.toString();
 
@@ -87,7 +86,7 @@ export const refreshAccessToken = async (refToken: string) => {
 	const newRefreshToken =
 		refreshTheSession ? generateRefreshToken(sessionId, REFRESH_TOKEN_SECRET) : undefined;
 
-	return { accessToken, newRefreshToken };
+	return { user, accessToken, newRefreshToken };
 };
 
 export const updateUser = async (data: UpdateUser, userId: string) => {

@@ -11,7 +11,7 @@ import arcjetProtection from "../middleware/arcjet.middleware";
 
 const authRouter: ExpresRouter = Router();
 
-// authRouter.use(arcjetProtection);
+authRouter.use(arcjetProtection);
 
 authRouter.post("/register", registerHandler);
 authRouter.post("/login", loginHandler);

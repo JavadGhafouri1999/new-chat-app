@@ -2,7 +2,6 @@ export type CreateUser = {
 	username: string;
 	email: string;
 	password: string;
-	gender: "male" | "female";
 	confirmPassword: string;
 	userAgent?: string | undefined;
 };

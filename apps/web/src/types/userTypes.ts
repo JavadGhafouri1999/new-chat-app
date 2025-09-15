@@ -21,13 +21,13 @@ export type signUpData = loginData & {
 
 export interface UserState {
 	authUser: UserProfileDetails | null;
-	isUserloggedIn: boolean;
 	isCheckingAuth: boolean;
 	isSigningUp: boolean;
 	isLoggingIn: boolean;
 	checkAuth: () => void;
 	signup: (data: signUpData) => void;
 	login: (data: loginData) => void;
+	logout: () => void;
 }
 
 export type MessageData = {

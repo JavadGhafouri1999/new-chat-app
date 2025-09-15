@@ -55,7 +55,7 @@ body {
 }
 
 .auth-btn {
-	@apply w-full bg-cyan-600 text-white rounded-lg py-3 font-medium hover:bg-cyan-400 text-sm transition-all cursor-pointer;
+	@apply w-full bg-cyan-600 text-white rounded-lg py-2.5 font-medium hover:bg-cyan-400 text-sm transition-all cursor-pointer;
 }
 
 .auth-link {

@@ -6,7 +6,6 @@ import { AxiosError } from "axios";
 
 export const useAuthStore = create<UserState>((set) => ({
 	authUser: null,
-	isUserloggedIn: false,
 	isCheckingAuth: true,
 	isSigningUp: false,
 	isLoggingIn: false,
@@ -60,6 +59,15 @@ export const useAuthStore = create<UserState>((set) => ({
 			}
 		} finally {
 			set({ isLoggingIn: false });
+		}
+	},
+
+	logout: async () => {
+		try {
+			await axiosInstance.get("/auth/logout");
+			set({ authUser: null });
+		} catch (error) {
+			console.log(error);
 		}
 	},
 }));

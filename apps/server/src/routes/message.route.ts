@@ -10,7 +10,8 @@ import arcjetProtection from "../middleware/arcjet.middleware";
 
 const messageRouter: ExpresRouter = Router();
 
-messageRouter.use(arcjetProtection, authProtect);
+// messageRouter.use(arcjetProtection, authProtect);
+messageRouter.use(authProtect);
 
 messageRouter.get("/chats", getChatParnerHandler);
 messageRouter.get("/contacts", getAllContactsHandler);

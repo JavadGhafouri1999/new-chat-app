@@ -9,6 +9,12 @@ export type UserProfileDetails = {
 	updatedAt: Date;
 };
 
+export type UserUpdateData = {
+	// username?: string;
+	password?: string;
+	profileImage?: string;
+};
+
 export type loginData = {
 	email: string;
 	password: string;
@@ -28,6 +34,7 @@ export interface UserState {
 	signup: (data: signUpData) => void;
 	login: (data: loginData) => void;
 	logout: () => void;
+	updateUserProfile: (data: UserUpdateData) => void;
 }
 
 export type MessageData = {

@@ -55,7 +55,7 @@ export const updateUserProfile = catchErrors(async (req, res) => {
 	const userId = req.userId.toString();
 	const request = updateSchema.parse(req.body);
 
-	await updateUser(request, userId);
+	const { user } = await updateUser(request, userId);
 
-	res.status(OK).json({ message: "✅ User updated!" });
+	res.status(OK).json({ message: "✅ User updated!", user });
 });

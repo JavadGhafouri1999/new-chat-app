@@ -18,7 +18,7 @@ export const sendMessageHandler = catchErrors(async (req, res) => {
 		const uplaodResponse = await cloudinary.uploader.upload(image);
 		imageUrl = uplaodResponse.secure_url;
 	}
-	appAssert(!text && !image, BAD_REQUEST, "Text or image is required");
+	appAssert(text || image, BAD_REQUEST, "Text or image is required");
 
 	appAssert(
 		senderId.toString() !== receiverId.toString(),

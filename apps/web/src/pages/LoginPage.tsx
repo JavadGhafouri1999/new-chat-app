@@ -92,7 +92,7 @@ export default function LoginPage() {
 									className="auth-btn mt-4 disabled:cursor-not-allowed">
 									{isLoggingIn ?
 										<span className="loading loading-dots loading-sm"></span>
-									:	"ثبت نام"}
+									:	"ورود به حساب"}
 								</button>
 								<div className="text-center mt-6">
 									<Link to="/register" className="auth-link">

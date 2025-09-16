@@ -86,7 +86,7 @@ export const refreshAccessToken = async (refToken: string) => {
 	const newRefreshToken =
 		refreshTheSession ? generateRefreshToken(sessionId, REFRESH_TOKEN_SECRET) : undefined;
 
-	return { user, accessToken, newRefreshToken };
+	return { user: user.omitPassword(), accessToken, newRefreshToken };
 };
 
 export const updateUser = async (data: UpdateUser, userId: string) => {

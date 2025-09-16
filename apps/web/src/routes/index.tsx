@@ -19,8 +19,6 @@ export default function AppRoutes() {
 		checkAuth();
 	}, [checkAuth]);
 
-	console.log(isCheckingAuth, authUser);
-
 	if (isCheckingAuth) return <LoadingPage />;
 
 	return (

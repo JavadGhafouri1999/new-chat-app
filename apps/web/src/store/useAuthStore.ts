@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { loginData, signUpData, UserState } from "../types/userTypes";
+import type { loginData, signUpData, UserState, UserUpdateData } from "../types/userTypes";
 import { axiosInstance } from "../api/axios";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
@@ -48,7 +48,7 @@ export const useAuthStore = create<UserState>((set) => ({
 		set({ isLoggingIn: true });
 		try {
 			const res = await axiosInstance.post("/auth/login", data);
-			set({ authUser: res.data });
+			set({ authUser: res.data?.user });
 			toast.success("خوش آمدید");
 		} catch (error: unknown) {
 			set({ authUser: null });
@@ -68,6 +68,17 @@ export const useAuthStore = create<UserState>((set) => ({
 			set({ authUser: null });
 		} catch (error) {
 			console.log(error);
+		}
+	},
+
+	updateUserProfile: async (data: UserUpdateData) => {
+		try {
+			const res = await axiosInstance.put("/auth/update-profile", data);
+			set({ authUser: res.data?.user });
+			toast.success("بروزرسانی انجام شد");
+		} catch (error) {
+			console.log(error);
+			toast.error("مشکلی در بروزرسانی بوجود آمد");
 		}
 	},
 }));

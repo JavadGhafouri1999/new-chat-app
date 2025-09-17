@@ -30,7 +30,7 @@ export default function ProfileHeader() {
 	};
 
 	return (
-		<div className="w-full p-4 md:p-6 border-b border-slate-700/50 mx-auto flex items-center justify-center md:justify-around">
+		<div className="w-full p-2 border-b border-slate-700/50 mx-auto flex items-center justify-center md:justify-around">
 			<div className="flex items-center gap-6">
 				{/* AVATAR */}
 				<div className="dropdown dropdown-start">

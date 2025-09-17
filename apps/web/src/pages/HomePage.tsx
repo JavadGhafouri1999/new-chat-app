@@ -1,9 +1,9 @@
 import ActiveTabSwitch from "../components/ActiveTabSwitch";
 import AnimatedBorder from "../components/AnimatedBorder";
-import ChatContainer from "../components/ChatContainer";
+import ChatContainer from "../components/chat/ChatContainer";
 import ChatsList from "../components/ChatsList";
 import ContactsList from "../components/ContactsList";
-import NoConversation from "../components/NoConversation";
+import NoConversationPlaceholder from "../components/chat/NoConversationPlaceholder";
 import ProfileHeader from "../components/ProfileHeader";
 import { useChatStore } from "../store/useChatStore";
 
@@ -27,7 +27,7 @@ export default function HomePage() {
 					<div className="flex-1 flex flex-col bg-slate-900/5">
 						{selectedUser ?
 							<ChatContainer />
-						:	<NoConversation />}
+						:	<NoConversationPlaceholder />}
 					</div>
 				</div>
 			</AnimatedBorder>

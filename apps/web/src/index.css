@@ -37,6 +37,11 @@ body {
 	direction: ltr;
 }
 
+.text-ltr {
+	direction: ltr;
+	text-align: left;
+}
+
 @property --border-angle {
 	inherits: false;
 	initial-value: 0deg;

@@ -1,6 +1,7 @@
 import type { UserProfileDetails } from "./userTypes";
 
 export type Message = {
+	_id: string;
 	senderId: string;
 	receiverId: string;
 	text: string;
@@ -21,5 +22,6 @@ export type ChatStore = {
 	getAllChatPartners: () => void;
 	getAllContacts: () => void;
 	setSelectedUser: (selectedUser: UserProfileDetails | null) => void;
+	getMessagesByUserId: (userId: string) => void;
 	setActiveTab: (tab: "chats" | "contacts") => void;
 };

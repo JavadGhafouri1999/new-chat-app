@@ -75,8 +75,7 @@ export default function MessageInput() {
 				</div>
 			)}
 			<form onSubmit={handleSendMessage} className="flex space-x-1 mx-auto">
-				<input
-					type="text"
+				<textarea
 					value={text}
 					onChange={(e) => {
 						setText(e.target.value);
@@ -84,9 +83,8 @@ export default function MessageInput() {
 							playRandomKeyStrokeSound();
 						}
 					}}
-					className="w-full flex-1 bg-slate-800/50 border border-slate-700/50 rounded-lg py-2 px-4"
-					placeholder="متن پیام شما"
-				/>
+					className="max-h-18 min-h-12 w-full flex-1 bg-slate-800/50 border border-slate-700/50 rounded-lg py-2 px-4"
+					placeholder="متن پیام شما"></textarea>
 				<input
 					type="file"
 					accept="image/*"
@@ -97,7 +95,7 @@ export default function MessageInput() {
 				<button
 					type="button"
 					onClick={() => fileInputRef.current?.click()}
-					className={`bg-slate-800/50 text-slate-400 hover:text-slate-200 rounded-lg px-3 md:px-4 transition-colors ${
+					className={`h-10 bg-slate-800/50 text-slate-400 hover:text-slate-200 rounded-lg px-3 md:px-4 transition-colors ${
 						imagePreview ? "text-cyan-500" : ""
 					}`}>
 					<ImageIcon className="size-4" />
@@ -105,7 +103,7 @@ export default function MessageInput() {
 				<button
 					type="submit"
 					disabled={!text.trim() && !imagePreview}
-					className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-lg px-3 md:px-4 py-2 font-medium hover:from-cyan-600 hover:to-cyan-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+					className="h-10 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-lg px-3 md:px-4 py-2 font-medium hover:from-cyan-600 hover:to-cyan-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
 					<SendIcon className="size-4" />
 				</button>
 			</form>

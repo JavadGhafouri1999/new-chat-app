@@ -4,9 +4,10 @@ export type Message = {
 	_id: string;
 	senderId: string;
 	receiverId: string;
-	text: string;
-	image: string;
-	createdAt: Date;
+	text?: string;
+	image?: string;
+	createdAt: Date | string;
+	isOptimistic?: boolean;
 };
 
 export type MessageData = {

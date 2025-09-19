@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useAuthStore } from "../../store/useAuthStore";
 import { useChatStore } from "../../store/useChatStore";
 import ChatHeader from "./ChatHeader";
@@ -10,10 +10,18 @@ export default function ChatContainer() {
 	const { selectedUser, getMessagesByUserId, isMessagesLoading, messages } = useChatStore();
 	const { authUser } = useAuthStore();
 
+	const messageEndRef = useRef<HTMLDivElement>(null);
+
 	useEffect(() => {
 		if (!selectedUser) return;
 		getMessagesByUserId(selectedUser._id);
 	}, [getMessagesByUserId, selectedUser]);
+
+	useEffect(() => {
+		if (messageEndRef.current) {
+			messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [messages]);
 
 	return (
 		<>
@@ -29,22 +37,28 @@ export default function ChatContainer() {
 									<div className="w-9 rounded-full">
 										<img
 											alt="Tailwind CSS chat bubble component"
-											src={`${
+											src={
 												msg.senderId === authUser?._id ?
 													authUser?.profileImage || "./user.png"
 												:	selectedUser?.profileImage || "./user.png"
-											}`}
+											}
 										/>
 									</div>
 								</div>
 								<div className="chat-header flex items-center gap-2 ">
 									<time className="text-xs opacity-50">
-										{msg.createdAt.toString().slice(11, 16)}
+										{new Date(msg.createdAt).toLocaleTimeString(undefined, {
+											hour: "2-digit",
+											minute: "2-digit",
+											hour12: false,
+										})}
 									</time>
-									{selectedUser?.username}
+									{msg.senderId === authUser?._id ?
+										authUser?.username
+									:	selectedUser?.username}
 								</div>
 								<div
-									className="chat-bubble bg-slate-900/50 my-2 px-1 sm:px-2 mx-0 ltr"
+									className={`chat-bubble my-2 px-1 sm:px-2 mx-0 ltr  ${msg.senderId === authUser?._id ? "bg-cyan-700/50" : "bg-slate-900/50"}`}
 									style={{ transform: "scaleX(-1)" }}>
 									{msg.image && (
 										<div
@@ -60,7 +74,7 @@ export default function ChatContainer() {
 									)}
 									{msg.text && (
 										<div
-											className="flex items-center py-2 w-full"
+											className="py-2 w-full break-words"
 											style={{ transform: "scaleX(-1)" }}>
 											{msg.text}
 										</div>
@@ -68,6 +82,7 @@ export default function ChatContainer() {
 								</div>
 							</div>
 						))}
+						<div className="" ref={messageEndRef} />
 					</div>
 				: isMessagesLoading ?
 					<MessagesLoadingSkeleton />

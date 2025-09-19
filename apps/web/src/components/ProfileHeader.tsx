@@ -45,7 +45,7 @@ export default function ProfileHeader() {
 					</div>
 					<ul
 						tabIndex={0}
-						className="fixed z-50 dropdown-content menu bg-slate-900/98 backdrop-blur-sm rounded-box min-w-32 max-w-36 p-2 shadow-sm">
+						className="z-50 dropdown-content menu bg-slate-900/98 backdrop-blur-sm rounded-box min-w-32 max-w-36 p-2 shadow-sm">
 						<p className="text-sm text-slate-200 py-2 px-4">{authUser?.username}</p>
 						<div className="divider p-0 m-0" />
 						<button

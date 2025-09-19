@@ -2,6 +2,7 @@ import { create } from "zustand";
 import type { ChatStore, MessageData } from "../types/chatTypes";
 import { axiosInstance } from "../api/axios";
 import toast from "react-hot-toast";
+import { useAuthStore } from "./useAuthStore";
 
 export const useChatStore = create<ChatStore>((set, get) => ({
 	allContact: [],
@@ -53,6 +54,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
 	getMessagesByUserId: async (userId: string) => {
 		set({ isMessagesLoading: true });
+
 		try {
 			const res = await axiosInstance(`/message/${userId}`);
 			set({ messages: res.data });
@@ -67,10 +69,34 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
 	sendMessageData: async (data: MessageData) => {
 		const { selectedUser, messages } = get();
+
+		const { authUser } = useAuthStore.getState();
+
+		// null checks
+		if (!authUser || !selectedUser) {
+			toast.error("مشکلی در ارسال پیام بوجود آمد");
+			return;
+		}
+
+		const tempId = `temp-${Date.now()}`;
+
+		const optimisticMessage = {
+			_id: tempId,
+			senderId: authUser?._id,
+			receiverId: selectedUser?._id,
+			text: data.text,
+			image: data.image,
+			createdAt: new Date().toISOString(),
+			isOptimistic: true,
+		};
+
+		set({ messages: [...messages, optimisticMessage] });
+
 		try {
 			const res = await axiosInstance.post(`/message/send/${selectedUser?._id}`, data);
 			set({ messages: messages.concat(res.data) });
 		} catch (error) {
+			set({ messages: messages });
 			console.log(error);
 			toast.error("مشکلی در ارسال پیام بوجود آمد");
 		}

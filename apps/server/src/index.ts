@@ -18,7 +18,7 @@ import jsonValidator from "./middleware/jsonValidator.middleware";
 /* -------------------------------------------------------------------------- */
 
 const app = express();
-app.use(express.json({ limit: "4mb" }));
+app.use(express.json({ limit: "5mb" }));
 app.use(jsonValidator);
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: APP_ORIGIN, credentials: true }));

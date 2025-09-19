@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 import { Image, LogOut, Volume2, VolumeOff } from "lucide-react";
-
 const mouseClickSound = new Audio("/sounds/mouse-click.mp3");
 
 export default function ProfileHeader() {
@@ -30,13 +29,13 @@ export default function ProfileHeader() {
 	};
 
 	return (
-		<div className="w-full p-2 border-b border-slate-700/50 mx-auto flex items-center justify-center md:justify-around">
+		<div className="w-full py-4 border-b border-slate-700/50 mx-auto flex items-center justify-center md:justify-around">
 			<div className="flex items-center gap-6">
 				{/* AVATAR */}
 				<div className="dropdown dropdown-start">
 					<div tabIndex={0} role="button">
 						<div className="avatar avatar-online">
-							<div className="w-12 rounded-full">
+							<div className="w-8 rounded-full">
 								<img
 									src={authUser?.profileImage || selectedImage || "./user.png"}
 									alt={authUser?.username}
@@ -46,7 +45,7 @@ export default function ProfileHeader() {
 					</div>
 					<ul
 						tabIndex={0}
-						className="dropdown-content menu bg-slate-900/98 backdrop-blur-sm rounded-box min-w-32 max-w-36 z-50 p-2 shadow-sm">
+						className="fixed z-50 dropdown-content menu bg-slate-900/98 backdrop-blur-sm rounded-box min-w-32 max-w-36 p-2 shadow-sm">
 						<p className="text-sm text-slate-200 py-2 px-4">{authUser?.username}</p>
 						<div className="divider p-0 m-0" />
 						<button

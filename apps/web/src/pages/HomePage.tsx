@@ -14,10 +14,10 @@ export default function HomePage() {
 			<AnimatedBorder>
 				<div className="w-full h-[800px] flex">
 					{/* Right Side */}
-					<div className="max-w-80 bg-slate-800/50 backdrop-blur-sm flex flex-col">
+					<div className="md:w-60 bg-slate-800/50 backdrop-blur-sm flex flex-col">
 						<ProfileHeader />
 						<ActiveTabSwitch />
-						<div className="flex-1 overflow-y-auto p-4 space-y-2">
+						<div className="flex-1 overflow-y-auto py-2 space-y-2">
 							{activeTab === "chats" ?
 								<ChatsList />
 							:	<ContactsList />}

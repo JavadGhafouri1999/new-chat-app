@@ -18,11 +18,11 @@ export default function ChatsList() {
 			{chats.map((chat) => (
 				<div
 					key={chat._id}
-					className="md:bg-cyan-500/10 md:p-3 rounded-lg cursor-pointer md:hover:bg-cyan-500/30 transition-colors flex items-center justify-center w-full"
+					className="md:bg-cyan-500/10 md:p-3 rounded-lg cursor-pointer md:hover:bg-cyan-500/30 transition-colors flex items-center justify-center md:mx-2"
 					onClick={() => setSelectedUser(chat)}>
 					<div className="flex items-center justify-between md:w-full gap-3">
 						<div className={`avatar avatar-online`}>
-							<div className="size-12 rounded-full">
+							<div className="size-8 rounded-full">
 								<img
 									src={chat.profileImage || "./user.png"}
 									className="object-cover"

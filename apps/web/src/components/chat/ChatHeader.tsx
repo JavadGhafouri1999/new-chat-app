@@ -18,10 +18,10 @@ export default function ChatHeader() {
 	}, [setSelectedUser]);
 
 	return (
-		<div className="flex-1 flex items-center justify-between bg-slate-800/50 border-b border-slate-700/50 max-h-[85px] px-5 py-2">
+		<div className="flex-1 flex items-center justify-between bg-slate-800/50 border-b border-slate-700/50 max-h-[65px] min-h-[65px] px-5">
 			<div className="flex items-center space-x-3">
 				<div className="avatar avatar-online">
-					<div className="size-12  rounded-full overflow-hidden">
+					<div className="size-10  rounded-full overflow-hidden">
 						<img
 							src={selectedUser?.profileImage || "./user.png"}
 							alt={selectedUser?.username}
@@ -35,7 +35,7 @@ export default function ChatHeader() {
 				</div>
 			</div>
 			<button className="cursor-pointer" onClick={() => setSelectedUser(null)}>
-				<XIcon className="size-5 text-slate-400 hover:text-red-400 transition-colors" />
+				<XIcon className="size-5 md:size-6 text-slate-400 hover:text-red-400 transition-colors" />
 			</button>
 		</div>
 	);

@@ -9,8 +9,8 @@ import cloudinary from "../utils/cloudinary";
 
 export const sendMessageHandler = catchErrors(async (req, res) => {
 	const senderId = req.userId;
-	const { id: receiverId } = req.params;
 	const { text, image } = req.body;
+	const { id: receiverId } = req.params;
 	appAssert(receiverId, BAD_REQUEST, "User was not found");
 
 	let imageUrl;
@@ -61,7 +61,7 @@ export const getMessageByUSerIdHandler = catchErrors(async (req, res) => {
 			{ senderId: myId, receiverId: userToChat },
 			{ senderId: userToChat, receiverId: myId },
 		],
-	});
+	}).sort({ createdAt: 1 });
 
 	return res.status(OK).json(messages);
 });

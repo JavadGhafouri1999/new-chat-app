@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { ChatStore } from "../types/chatTypes";
+import type { ChatStore, MessageData } from "../types/chatTypes";
 import { axiosInstance } from "../api/axios";
 import toast from "react-hot-toast";
 
@@ -62,6 +62,17 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 			toast.error("مشکلی در دریافت پیام ها بوجود آمد");
 		} finally {
 			set({ isMessagesLoading: false });
+		}
+	},
+
+	sendMessageData: async (data: MessageData) => {
+		const { selectedUser, messages } = get();
+		try {
+			const res = await axiosInstance.post(`/message/send/${selectedUser?._id}`, data);
+			set({ messages: messages.concat(res.data) });
+		} catch (error) {
+			console.log(error);
+			toast.error("مشکلی در ارسال پیام بوجود آمد");
 		}
 	},
 }));

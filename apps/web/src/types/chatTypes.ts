@@ -9,6 +9,11 @@ export type Message = {
 	createdAt: Date;
 };
 
+export type MessageData = {
+	text?: string;
+	image?: string;
+};
+
 export type ChatStore = {
 	allContact: UserProfileDetails[];
 	chats: UserProfileDetails[];
@@ -21,6 +26,7 @@ export type ChatStore = {
 	toggleSound: () => void;
 	getAllChatPartners: () => void;
 	getAllContacts: () => void;
+	sendMessageData: (data: MessageData) => void;
 	setSelectedUser: (selectedUser: UserProfileDetails | null) => void;
 	getMessagesByUserId: (userId: string) => void;
 	setActiveTab: (tab: "chats" | "contacts") => void;

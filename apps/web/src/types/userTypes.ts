@@ -25,6 +25,8 @@ export type signUpData = loginData & {
 	confirmPassword: string;
 };
 
+
+
 export interface UserState {
 	authUser: UserProfileDetails | null;
 	isCheckingAuth: boolean;
@@ -36,11 +38,3 @@ export interface UserState {
 	logout: () => void;
 	updateUserProfile: (data: UserUpdateData) => void;
 }
-
-export type MessageData = {
-	senderId: string;
-	receiverId: string;
-	text: string;
-	image: string;
-	createdAt: Date;
-};

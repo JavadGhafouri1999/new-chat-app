@@ -3,12 +3,17 @@ import type { loginData, signUpData, UserState, UserUpdateData } from "../types/
 import { axiosInstance } from "../api/axios";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import { io } from "socket.io-client";
 
-export const useAuthStore = create<UserState>((set) => ({
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/api";
+
+export const useAuthStore = create<UserState>((set, get) => ({
 	authUser: null,
+	onlineUsers: [],
 	isCheckingAuth: true,
 	isSigningUp: false,
 	isLoggingIn: false,
+	socket: null,
 
 	checkAuth: async () => {
 		try {
@@ -31,6 +36,7 @@ export const useAuthStore = create<UserState>((set) => ({
 		try {
 			const res = await axiosInstance.post("/auth/register", data);
 			set({ authUser: res.data });
+			get().connectSocket();
 			toast.success("حساب کاربری شما ساخته شد.");
 		} catch (error: unknown) {
 			set({ authUser: null });
@@ -49,6 +55,7 @@ export const useAuthStore = create<UserState>((set) => ({
 		try {
 			const res = await axiosInstance.post("/auth/login", data);
 			set({ authUser: res.data?.user });
+			get().connectSocket();
 			toast.success("خوش آمدید");
 		} catch (error: unknown) {
 			set({ authUser: null });
@@ -66,6 +73,7 @@ export const useAuthStore = create<UserState>((set) => ({
 		try {
 			await axiosInstance.get("/auth/logout");
 			set({ authUser: null });
+			get().disconnectSocket();
 		} catch (error) {
 			console.log(error);
 		}
@@ -79,6 +87,28 @@ export const useAuthStore = create<UserState>((set) => ({
 		} catch (error) {
 			console.log(error);
 			toast.error("مشکلی در بروزرسانی بوجود آمد");
+		}
+	},
+
+	connectSocket: () => {
+		const { authUser } = get();
+		if (!authUser || get().socket?.connected) return;
+
+		const socket = io(BASE_URL, { withCredentials: true });
+
+		socket.connect();
+
+		set({ socket });
+
+		// Listen for online users
+		socket.on("getOnlineUsers", (userId) => {
+			set({ onlineUsers: userId });
+		});
+	},
+
+	disconnectSocket: () => {
+		if (get().socket?.connected) {
+			get().socket?.disconnect();
 		}
 	},
 }));

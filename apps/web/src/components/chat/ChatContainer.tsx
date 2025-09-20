@@ -58,7 +58,7 @@ export default function ChatContainer() {
 									:	selectedUser?.username}
 								</div>
 								<div
-									className={`chat-bubble my-2 px-1 sm:px-2 mx-0 ltr  ${msg.senderId === authUser?._id ? "bg-cyan-700/50" : "bg-slate-900/50"}`}
+									className={`chat-bubble min-w-18 max-w-[70%] my-2 px-3 sm:px-2 mx-0 ltr ${msg.senderId === authUser?._id ? "bg-cyan-700/50" : "bg-slate-900/50"}`}
 									style={{ transform: "scaleX(-1)" }}>
 									{msg.image && (
 										<div

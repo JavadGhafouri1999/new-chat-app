@@ -1,13 +1,14 @@
 import "dotenv/config";
-import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import path from "node:path";
+import express from "express";
+import cookieParser from "cookie-parser";
 import { fileURLToPath } from "node:url";
 // others
 import connectDB from "./config/db";
-import errorMiddleware from "./middleware/error.middleware";
+import { app, server } from "./utils/socket";
 import { APP_ORIGIN, PORT } from "./utils/env";
+import errorMiddleware from "./middleware/error.middleware";
 // Routes
 import authRouter from "./routes/auth.route";
 import messageRouter from "./routes/message.route";
@@ -17,7 +18,6 @@ import jsonValidator from "./middleware/jsonValidator.middleware";
 /*                                   Configs                                  */
 /* -------------------------------------------------------------------------- */
 
-const app = express();
 app.use(express.json({ limit: "5mb" }));
 app.use(jsonValidator);
 app.use(express.urlencoded({ extended: true }));
@@ -53,7 +53,7 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
-app.listen(PORT, async () => {
+server.listen(PORT, async () => {
 	await connectDB();
 	console.log(`Server is running on ${PORT}\nhttp://localhost:5001`);
 });

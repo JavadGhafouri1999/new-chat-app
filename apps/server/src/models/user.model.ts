@@ -6,7 +6,6 @@ export interface UserDocument extends mongoose.Document {
 	username: string;
 	email: string;
 	password: string;
-	gender: "male" | "female";
 	profileImage: string;
 	verified: boolean;
 	createdAt: Date;
@@ -14,7 +13,7 @@ export interface UserDocument extends mongoose.Document {
 	comparePassword: (val: string) => Promise<Boolean>;
 	omitPassword(): Pick<
 		UserDocument,
-		"_id" | "email" | "username" | "gender" | "verified" | "profileImage" | "createdAt" | "updatedAt"
+		"_id" | "email" | "username" | "verified" | "profileImage" | "createdAt" | "updatedAt"
 	>;
 }
 
@@ -34,7 +33,6 @@ const userSchema = new mongoose.Schema<UserDocument>(
 
 			required: true,
 		},
-		gender: { type: String, enum: ["male", "female"], required: true },
 		profileImage: { type: String, default: "" },
 		verified: { type: Boolean, required: true, default: false },
 	},

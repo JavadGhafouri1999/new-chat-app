@@ -15,10 +15,11 @@ export const generateRefreshToken = (sessionId: string, secret: string) => {
 	});
 };
 
-export const tokenValidator = <T extends object = JwtPayload>(token: string, secret: string): T | null => {
+export const tokenValidator = <T extends object = JwtPayload>(token: string, secret: string) => {
 	try {
-		return jwt.verify(token, secret) as T;
-	} catch {
-		return null; // invalid or expired token
+		const payload = jwt.verify(token, secret) as T;
+		return { payload };
+	} catch (error: any) {
+		return { error: error.message };
 	}
 };

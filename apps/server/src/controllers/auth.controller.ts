@@ -1,6 +1,6 @@
 import AppErrorCode from "../constants/errorCode";
 import { CREATED, OK, UNAUTHORIZED } from "../constants/httpStatusCode";
-import { createAccount, login, refreshAccessToken } from "../services/auth.service";
+import { createAccount, login, refreshAccessToken, updateUser } from "../services/auth.service";
 import appAssert from "../utils/appAssert";
 import catchErrors from "../utils/catchErrors";
 import {
@@ -9,7 +9,7 @@ import {
 	getRefreshTokenCookieOptions,
 	setAuthCookies,
 } from "../utils/cookie";
-import { loginSchema, registerSchema } from "./auth.schemas";
+import { loginSchema, registerSchema, updateSchema } from "./auth.schemas";
 
 export const registerHandler = catchErrors(async (req, res) => {
 	const request = registerSchema.parse({ ...req.body, userAgent: req.headers["user-agent"] });
@@ -37,9 +37,9 @@ export const logoutHandler = catchErrors(async (_, res) => {
 
 export const refreshTokenHandler = catchErrors(async (req, res) => {
 	const refreshToken = req.cookies.refreshToken as string | undefined;
-	appAssert(refreshToken, UNAUTHORIZED, "There is no valid Token", AppErrorCode.InvalidRefreshToken);
+	appAssert(refreshToken, UNAUTHORIZED, "❌ There is no valid Token", AppErrorCode.InvalidRefreshToken);
 
-	const { accessToken, newRefreshToken } = await refreshAccessToken(refreshToken);
+	const { accessToken, newRefreshToken, user } = await refreshAccessToken(refreshToken);
 
 	if (newRefreshToken) {
 		res.cookie("refreshToken", newRefreshToken, getRefreshTokenCookieOptions());
@@ -48,5 +48,14 @@ export const refreshTokenHandler = catchErrors(async (req, res) => {
 	return res
 		.status(OK)
 		.cookie("accessToken", accessToken, getAccessTokenCookieOptions())
-		.json({ message: "✅ Access Token refreshed" });
+		.json({ message: "✅ Access Token refreshed", user });
+});
+
+export const updateUserProfile = catchErrors(async (req, res) => {
+	const userId = req.userId.toString();
+	const request = updateSchema.parse(req.body);
+
+	const { user } = await updateUser(request, userId);
+
+	res.status(OK).json({ message: "✅ User updated!", user });
 });

@@ -2,9 +2,14 @@ export type CreateUser = {
 	username: string;
 	email: string;
 	password: string;
-	gender: "male" | "female";
 	confirmPassword: string;
 	userAgent?: string | undefined;
+};
+
+export type UpdateUser = {
+	username?: string | undefined;
+	password?: string | undefined;
+	profileImage?: string | undefined;
 };
 
 export type LoginParams = {

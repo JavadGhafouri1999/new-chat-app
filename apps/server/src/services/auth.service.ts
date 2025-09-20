@@ -1,10 +1,13 @@
 import AppErrorCode from "../constants/errorCode";
-import { BAD_REQUEST, CONFLICT, NOT_FOUND, UNAUTHORIZED } from "../constants/httpStatusCode";
+import { CONFLICT, NOT_FOUND, UNAUTHORIZED } from "../constants/httpStatusCode";
 import SessionModel from "../models/session.model";
 import UserModel from "../models/user.model";
-import type { CreateUser, LoginParams } from "../types/authTypes";
+import type { CreateUser, LoginParams, UpdateUser } from "../types/authTypes";
 import appAssert from "../utils/appAssert";
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "../utils/env";
+import { hashValue } from "../utils/bcrypt";
+import cloudinary from "../utils/cloudinary";
+import { sendWelcomeEmail } from "../utils/emailHandler";
+import { ACCESS_TOKEN_SECRET, APP_ORIGIN, REFRESH_TOKEN_SECRET } from "../utils/env";
 import { generateAccessToken, generateRefreshToken, tokenValidator } from "../utils/jwtToken";
 import { tenDaysFromNow } from "../utils/timers";
 
@@ -17,7 +20,6 @@ export const createAccount = async (userData: CreateUser) => {
 		username: userData.username,
 		email: userData.email,
 		password: userData.password,
-		gender: userData.gender,
 	});
 	const userId = newUser._id.toString();
 
@@ -26,6 +28,12 @@ export const createAccount = async (userData: CreateUser) => {
 
 	const accessToken = generateAccessToken({ userId, sessionId }, ACCESS_TOKEN_SECRET);
 	const refreshToken = generateRefreshToken(sessionId, REFRESH_TOKEN_SECRET);
+
+	try {
+		await sendWelcomeEmail(newUser.email, newUser.username, APP_ORIGIN);
+	} catch (error) {
+		console.log(error);
+	}
 
 	return { user: newUser.omitPassword(), accessToken, refreshToken };
 };
@@ -49,7 +57,7 @@ export const login = async (userData: LoginParams) => {
 };
 
 export const refreshAccessToken = async (refToken: string) => {
-	const payload = tokenValidator(refToken, REFRESH_TOKEN_SECRET);
+	const { payload } = tokenValidator(refToken, REFRESH_TOKEN_SECRET);
 	appAssert(payload, UNAUTHORIZED, "Invalid or Expired Refresh Token", AppErrorCode.InvalidRefreshToken);
 
 	const now = Date.now();
@@ -78,5 +86,22 @@ export const refreshAccessToken = async (refToken: string) => {
 	const newRefreshToken =
 		refreshTheSession ? generateRefreshToken(sessionId, REFRESH_TOKEN_SECRET) : undefined;
 
-	return { accessToken, newRefreshToken };
+	return { user: user.omitPassword(), accessToken, newRefreshToken };
+};
+
+export const updateUser = async (data: UpdateUser, userId: string) => {
+	const updateData: Partial<UpdateUser> = { ...data };
+
+	if (data.profileImage) {
+		const upload = await cloudinary.uploader.upload(data.profileImage);
+		updateData.profileImage = upload.secure_url;
+	}
+
+	if (data.password) {
+		updateData.password = await hashValue(data.password);
+	}
+
+	const user = await UserModel.findByIdAndUpdate(userId, updateData, { new: true });
+
+	return { user: user?.omitPassword() };
 };

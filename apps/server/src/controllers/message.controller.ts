@@ -6,6 +6,7 @@ import UserModel from "../models/user.model";
 import appAssert from "../utils/appAssert";
 import catchErrors from "../utils/catchErrors";
 import cloudinary from "../utils/cloudinary";
+import { getReceiverSocketId, io } from "../utils/socket";
 
 export const sendMessageHandler = catchErrors(async (req, res) => {
 	const senderId = req.userId;
@@ -34,7 +35,10 @@ export const sendMessageHandler = catchErrors(async (req, res) => {
 	});
 
 	// TODO: SOCKET.IO
-
+	const receiverSocketId = getReceiverSocketId(receiverId);
+	if (receiverSocketId) {
+		io.to(receiverSocketId).emit("newMessage", newMessage);
+	}
 	return res.status(CREATED).json(newMessage);
 });
 

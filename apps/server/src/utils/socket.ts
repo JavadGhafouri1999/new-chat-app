@@ -1,11 +1,11 @@
-import { Server } from "socket.io";
 import http from "http";
-import express, { type Application } from "express";
-import { APP_ORIGIN } from "./env";
-import { socketAuthMiddleware, type AuthenticatedSocket } from "../middleware/socket.auth.middleware";
-import appAssert from "./appAssert";
-import { BAD_REQUEST } from "../constants/httpStatusCode";
 import chalk from "chalk";
+import { Server } from "socket.io";
+import { APP_ORIGIN } from "./env";
+import appAssert from "./appAssert";
+import express, { type Application } from "express";
+import { BAD_REQUEST } from "../constants/httpStatusCode";
+import { socketAuthMiddleware, type AuthenticatedSocket } from "../middleware/socket.auth.middleware";
 
 const app: Application = express();
 const server = http.createServer(app);
@@ -16,6 +16,13 @@ const io = new Server(server, {
 
 // Apply auth middleware to all socket connections
 io.use(socketAuthMiddleware);
+
+// Check to see if user is online or not
+export function getReceiverSocketId(userId: string) {
+	return userSocketMap[userId];
+}
+
+// For storing online users
 const userSocketMap: { [userId: string]: string } = {};
 
 io.on("connection", (socket: AuthenticatedSocket) => {

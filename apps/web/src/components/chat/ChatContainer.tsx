@@ -7,7 +7,14 @@ import NoChatHistoryPlaceholder from "../NoChatHistoryPlaceholder";
 import MessagesLoadingSkeleton from "../skeleton/MessagesLoadingSkeleton";
 
 export default function ChatContainer() {
-	const { selectedUser, getMessagesByUserId, isMessagesLoading, messages } = useChatStore();
+	const {
+		selectedUser,
+		getMessagesByUserId,
+		isMessagesLoading,
+		messages,
+		subscribeToMessages,
+		unsubscribeToMessages,
+	} = useChatStore();
 	const { authUser } = useAuthStore();
 
 	const messageEndRef = useRef<HTMLDivElement>(null);
@@ -15,7 +22,10 @@ export default function ChatContainer() {
 	useEffect(() => {
 		if (!selectedUser) return;
 		getMessagesByUserId(selectedUser._id);
-	}, [getMessagesByUserId, selectedUser]);
+		subscribeToMessages();
+
+		return () => unsubscribeToMessages();
+	}, [getMessagesByUserId, selectedUser, subscribeToMessages, unsubscribeToMessages]);
 
 	useEffect(() => {
 		if (messageEndRef.current) {

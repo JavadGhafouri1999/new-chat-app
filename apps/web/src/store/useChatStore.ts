@@ -4,6 +4,8 @@ import { axiosInstance } from "../api/axios";
 import toast from "react-hot-toast";
 import { useAuthStore } from "./useAuthStore";
 
+const notificationSound = new Audio("/sounds/notification.mp3");
+
 export const useChatStore = create<ChatStore>((set, get) => ({
 	allContact: [],
 	chats: [],
@@ -100,5 +102,30 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 			console.log(error);
 			toast.error("مشکلی در ارسال پیام بوجود آمد");
 		}
+	},
+
+	subscribeToMessages: () => {
+		const { selectedUser, isSoundEnabled } = get();
+		if (!selectedUser) return;
+
+		const socket = useAuthStore.getState().socket;
+
+		socket?.on("newMessage", (newMessage) => {
+			const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
+			if (!isMessageSentFromSelectedUser) return;
+			
+			const currentMessages = get().messages;
+			set({ messages: [...currentMessages, newMessage] });
+
+			if (isSoundEnabled) {
+				notificationSound.currentTime = 0;
+				notificationSound.play().catch((e) => console.log("audio Error Notification:\n", e));
+			}
+		});
+	},
+
+	unsubscribeToMessages: () => {
+		const socket = useAuthStore.getState().socket;
+		socket?.off("newMessage");
 	},
 }));

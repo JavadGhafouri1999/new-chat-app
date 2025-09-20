@@ -46,10 +46,10 @@ if (process.env.NODE_ENV === "production") {
 	const __filename = fileURLToPath(import.meta.url);
 	const __dirname = path.dirname(__filename);
 
-	// Correct path in Turborepo: go up 3 levels to root, then into apps/web/dist
-	app.use(express.static(path.join(__dirname, "../../../web/dist")));
-	app.get(/^(?!\/api).*/, (req, res) => {
-		res.sendFile(path.join(__dirname, "../../../web/dist/index.html"));
+	// Serve static files from the web directory inside dist
+	app.use(express.static(path.join(__dirname, "web")));
+	app.get(/^(?!\/api).*/, (_, res) => {
+		res.sendFile(path.join(__dirname, "web", "index.html"));
 	});
 }
 

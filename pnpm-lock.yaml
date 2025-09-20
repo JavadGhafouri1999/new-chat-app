@@ -59,6 +59,9 @@ importers:
       socket.io:
         specifier: ^4.8.1
         version: 4.8.1
+      web:
+        specifier: '*'
+        version: 0.0.2
       zod:
         specifier: ^4.1.8
         version: 4.1.8
@@ -90,9 +93,6 @@ importers:
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
-      xxx:
-        specifier: ^0.0.1
-        version: 0.0.1
 
   apps/web:
     dependencies:
@@ -2675,6 +2675,9 @@ packages:
       yaml:
         optional: true
 
+  web@0.0.2:
+    resolution: {integrity: sha512-DDf86rBor7Hn4uRgXbCxcOKyP8aiokvkd648k/xjKUO4hQSLvupfDC3dHCBXQ4lJFxYW62/CEWpSINbSQRr57A==}
+
   webidl-conversions@7.0.0:
     resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
     engines: {node: '>=12'}
@@ -2729,9 +2732,6 @@ packages:
   xmlhttprequest-ssl@2.1.2:
     resolution: {integrity: sha512-TEU+nJVUUnA4CYJFLvK5X9AOeH4KvDvhIfm0vV1GaQRtchnG0hgK5p8hw/xjv8cunWYCsiPCSDzObPyhEwq3KQ==}
     engines: {node: '>=0.4.0'}
-
-  xxx@0.0.1:
-    resolution: {integrity: sha512-v4lqN2YhlmyKFmdA6OobGeeyja9A1vAgaCDQvmGmtrlOHXbW9uBuAFI2jGV/6LUg6QncxhZeb3yrfwP25680tQ==}
 
   yallist@5.0.0:
     resolution: {integrity: sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw==}
@@ -5404,6 +5404,8 @@ snapshots:
       lightningcss: 1.30.1
       tsx: 4.20.5
 
+  web@0.0.2: {}
+
   webidl-conversions@7.0.0: {}
 
   whatwg-url@14.2.0:
@@ -5467,8 +5469,6 @@ snapshots:
   ws@8.17.1: {}
 
   xmlhttprequest-ssl@2.1.2: {}
-
-  xxx@0.0.1: {}
 
   yallist@5.0.0: {}
 

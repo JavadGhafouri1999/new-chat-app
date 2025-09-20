@@ -5,13 +5,14 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "tsx watch src/index.ts",
-		"build": "esbuild src/index.ts --bundle --platform=node --format=esm --outdir=dist --packages=external && shx cp .env dist && shx cp package.json dist",
+		"build": "esbuild src/index.ts --bundle --platform=node --format=esm --outdir=dist --packages=external && shx cp .env dist && shx cp package.json dist && shx mkdir -p dist/web && (shx cp -r ../web/dist/* dist/web/ || echo 'no web build found, skipping copy')",
 		"start": "node dist/index.js"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"web": "*",
 		"@arcjet/inspect": "1.0.0-beta.11",
 		"@arcjet/node": "1.0.0-beta.11",
 		"bcryptjs": "^3.0.2",
@@ -36,7 +37,6 @@
 		"esbuild": "^0.25.9",
 		"shx": "^0.4.0",
 		"tsx": "^4.20.5",
-		"typescript": "^5.9.2",
-		"xxx": "^0.0.1"
+		"typescript": "^5.9.2"
 	}
 }
